@@ -1,0 +1,30 @@
+===========================================================
+  2D ColliderGen - ChangeLog
+===========================================================
+
+-----------------------------------------------------------
+Version 1.1
+-----------------------------------------------------------
+
+Compatibility:
+-  This version is compatible with SmoothMoves V2.2.0 again.
+   (Fixed BoneAnimation problems introduced with this
+    SmoothMoves version - member variables have changed.)
+
+New Features:
+-  Added support for OTTileMap. There is now a menu entry
+   "2D ColliderGen/Orthello Specific/Add AlphaMesh Colliders To OTTileMap".
+
+Bugfixes:
+-  Previously the bottom-left pixel was not included in the
+   outline of objects. This lead to an incorrectly bevelled
+   bottom-left corner at a square box (and the outline had
+   5 vertices instead of 4).
+   
+-  Fixed a bug with Alpha Opaque Threshold not being
+   synchronized across all instances of a collider-group.
+
+-----------------------------------------------------------
+Version 1.0
+-----------------------------------------------------------
+-  Initial Release on the Asset Store
