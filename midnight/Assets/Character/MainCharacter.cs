@@ -13,7 +13,7 @@ public class MainCharacter : MonoBehaviour
 	private CharacterController _controller;
 	
 	
-	
+	public AudioClip jetpackSound;
 	
 	public float verticalForceFromTap = 1.0f;
 	public float verticalVelocity = 0.0f;
@@ -40,12 +40,26 @@ public class MainCharacter : MonoBehaviour
 		_controller = GetComponent<CharacterController>();
 		
 		_initialHeight = _controller.height;
+		
+		if (!audio)
+		{
+			gameObject.AddComponent<AudioSource>();
+			audio.clip = jetpackSound;
+			audio.Play();
+		}
 	}
 	
 	void Update()
 	{
 		//make sure her Z is 0
 		transform.position = new Vector3(transform.position.x, transform.position.y, 0.0f);
+		
+		
+		if (!audio.isPlaying)
+		{
+			Debug.Log("test");
+			audio.Play();
+		}
 		
 		//hover
 		/*
