@@ -11,6 +11,10 @@ public class MouseCharacterControls : CharacterControls
 		{
 			MoveToClick(Input.mousePosition);
 		}
+		if ( Input.GetKeyDown(KeyCode.Space))
+		{
+			JumpBackParallax();
+		}
 	}
 	
 	

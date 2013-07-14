@@ -7,16 +7,26 @@ public abstract class CharacterControls : MonoBehaviour
 	
 	
 	// Move the character (negative left, positive right)
-	public void Translate(float amount)
+	protected void Translate(float amount)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
 		controller.SimpleMove( Vector3.right * amount );
 	}
 	
-	public void ForceTranslate(float amount)
+	protected void ForceTranslate(float amount)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
 		controller.Move( Vector3.right * amount );
+	}
+	
+	protected void JumpBackParallax()
+	{
+		
+	}
+	
+	protected void JumpForwardParallax()
+	{
+		
 	}
 	
 }
