@@ -5,6 +5,7 @@ public abstract class CharacterControls : MonoBehaviour
 {
 	public float CharacterSpeed = 1.0f;
 	
+	public float jumpParallaxHeight = 100.0f;
 	
 	// Move the character (negative left, positive right)
 	protected void Translate(float amount)
@@ -39,5 +40,18 @@ public abstract class CharacterControls : MonoBehaviour
 	protected void JumpForwardParallax()
 	{
 		
+	}
+	
+	private IEnumerator<IYieldInstruction> JumpCoroutine(Vector3 target)
+	{
+		float targetDir = target.x < transform.position.x ? -1.0f : 1.0f;
+		float frameSpeed = CharacterSpeed * Time.deltaTime;
+		float frameVelocity = targetDir * frameSpeed;
+		
+		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
+		{
+			Translate(frameVelocity);
+			yield return Yield.UntilNextFrame;
+		}
 	}
 }
