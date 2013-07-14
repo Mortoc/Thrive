@@ -36,7 +36,7 @@ public class ParallaxManager : MonoBehaviour
 		{
 			//increase the size and decrease depth of the current parallax
 			
-			Debug.Log("Current level is " + currentParallaxIndex.ToString());
+			//Debug.Log("Current level is " + currentParallaxIndex.ToString());
 			for (var i = 0; i <= currentParallaxIndex; i++)
 			{
 				parallaxes[i].transform.localScale = new Vector3(0,0,0);

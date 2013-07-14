@@ -14,7 +14,7 @@ public class MouseCharacterControls : CharacterControls
 		
 		if( Input.GetKeyDown(KeyCode.Space) )
 		{
-			JumpBackParallax();
+			JumpParallax();
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class MouseCharacterControls : CharacterControls
 		
 		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
 		{
-			Translate(frameVelocity);
+			Translate(Vector2.right * frameVelocity);
 			yield return Yield.UntilNextFrame;
 		}
 	}

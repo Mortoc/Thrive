@@ -17,19 +17,17 @@ public abstract class CharacterControls : MonoBehaviour
 	
 	
 	// Move the character (negative left, positive right)
-	protected void Translate(float amount)
+	protected void Translate(Vector2 translation)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		Vector3 translation = Vector3.right * amount;
 		controller.SimpleMove( translation );
 	
 		PostTranslate(translation);
 	}
 	
-	protected void ForceTranslate(float amount)
+	protected void ForceTranslate(Vector2 translation)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		Vector3 translation = Vector3.right * amount;
 		controller.Move( translation );
 		
 		PostTranslate(translation);
@@ -41,25 +39,21 @@ public abstract class CharacterControls : MonoBehaviour
 		sprite.flipHorizontal = translation.x > 0.0f;
 	}
 	
-	protected void JumpBackParallax()
-	{
-		
-	}
 	
-	protected void JumpForwardParallax()
+	protected void JumpParallax()
 	{
-		
+		Vector3 target = transform.position + (Vector3.up * jumpParallaxHeight);
+		Scheduler.Run(JumpCoroutine(target));
 	}
 	
 	private IEnumerator<IYieldInstruction> JumpCoroutine(Vector3 target)
 	{
-		float targetDir = target.x < transform.position.x ? -1.0f : 1.0f;
 		float frameSpeed = CharacterSpeed * Time.deltaTime;
-		float frameVelocity = targetDir * frameSpeed;
+		float frameVelocity = frameSpeed;
 		
-		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
+		while( (target.y > transform.position.y ) )
 		{
-			Translate(frameVelocity);
+			Translate(Vector2.up * frameVelocity);
 			yield return Yield.UntilNextFrame;
 		}
 	}
