@@ -17,6 +17,7 @@ public class ParallaxObject : MonoBehaviour
 	void Start()
 	{
 		cameraInitialPosition = Camera.main.transform.position.x;
+		initialScale = transform.localScale;
 		transform.position = initialPosition;
 	}
 	

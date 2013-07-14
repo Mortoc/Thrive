@@ -7,15 +7,16 @@ public class MouseCharacterControls : CharacterControls
 	
 	void Update()
 	{
-		if( Input.GetMouseButtonDown(0) && !Gui.IsMouseOver() )
+		if ( Input.GetMouseButton(0) && !Gui.IsMouseOver() )
 		{
 			MoveToClick(Input.mousePosition);
 		}
 		
-		if( Input.GetKeyDown(KeyCode.Space) )
+		if( Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow ) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) )
 		{
-			JumpBackParallax();
+			Character.JumpParallax();
 		}
+		
 	}
 	
 	
@@ -34,23 +35,20 @@ public class MouseCharacterControls : CharacterControls
 		float zDistToCamera = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
 		Vector3 clickPosition = clickRay.GetPoint(zDistToCamera);
 		
-		// move to that spot
-		if( _moveTask != null )
-			_moveTask.Exit();
 		
-		_moveTask = Scheduler.Run( MoveToClickCoroutine(clickPosition) );
+		//float frameSpeed = CharacterSpeed * Time.deltaTime;
+		float dir = transform.position.x - clickPosition.x > 0 ? -1.0f : 1.0f;
+		
+		if (dir < 0)
+		{
+			Character.AccelerateLeft();	
+		}
+		else
+		{
+			Character.AccelerateRight();
+		}
+		Character.AccelerateUp();
 	}
 	
-	private IEnumerator<IYieldInstruction> MoveToClickCoroutine(Vector3 target)
-	{
-		float targetDir = target.x < transform.position.x ? -1.0f : 1.0f;
-		float frameSpeed = CharacterSpeed * Time.deltaTime;
-		float frameVelocity = targetDir * frameSpeed;
-		
-		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
-		{
-			Translate(frameVelocity);
-			yield return Yield.UntilNextFrame;
-		}
-	}
+
 }

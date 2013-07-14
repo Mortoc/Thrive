@@ -7,7 +7,6 @@ public abstract class CharacterControls : MonoBehaviour
 	
 	protected MainCharacter Character { get; set; }
 	protected SceneGui Gui { get; set; }
-	public float jumpParallaxHeight = 100.0f;
 	
 	protected virtual void Start()
 	{
@@ -16,51 +15,19 @@ public abstract class CharacterControls : MonoBehaviour
 	}
 	
 	
-	// Move the character (negative left, positive right)
-	protected void Translate(float amount)
+	// Move the character
+	protected void Translate(float translation)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
-		Vector3 translation = Vector3.right * amount;
-		controller.SimpleMove( translation );
-	
-		PostTranslate(translation);
-	}
-	
-	protected void ForceTranslate(float amount)
-	{
-		CharacterController controller = GetComponent<CharacterController>();
-		Vector3 translation = Vector3.right * amount;
-		controller.Move( translation );
+		controller.Move( new Vector3(translation, 0, 0));
 		
 		PostTranslate(translation);
 	}
 	
-	protected virtual void PostTranslate(Vector3 translation)
-	{
+	protected virtual void PostTranslate(float translation)
+	{ 
 		OTSprite sprite = GetComponent<OTSprite>();
-		sprite.flipHorizontal = translation.x > 0.0f;
+		sprite.flipHorizontal = translation > 0.0f;
 	}
 	
-	protected void JumpBackParallax()
-	{
-		
-	}
-	
-	protected void JumpForwardParallax()
-	{
-		
-	}
-	
-	private IEnumerator<IYieldInstruction> JumpCoroutine(Vector3 target)
-	{
-		float targetDir = target.x < transform.position.x ? -1.0f : 1.0f;
-		float frameSpeed = CharacterSpeed * Time.deltaTime;
-		float frameVelocity = targetDir * frameSpeed;
-		
-		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
-		{
-			Translate(frameVelocity);
-			yield return Yield.UntilNextFrame;
-		}
-	}
 }
