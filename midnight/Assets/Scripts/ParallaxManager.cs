@@ -24,9 +24,14 @@ public class ParallaxManager : MonoBehaviour
 	
 	void Update()
 	{
-		if( Input.GetKeyDown(KeyCode.Space) )
+		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
 		{
 			ShiftForward();
+		}
+		
+		if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+		{
+			ShiftBackward();
 		}
 	}
 	
@@ -36,7 +41,6 @@ public class ParallaxManager : MonoBehaviour
 		{
 			//increase the size and decrease depth of the current parallax
 			
-			//Debug.Log("Current level is " + currentParallaxIndex.ToString());
 			for (var i = 0; i <= currentParallaxIndex; i++)
 			{
 				parallaxes[i].transform.localScale = new Vector3(0,0,0);
@@ -58,14 +62,17 @@ public class ParallaxManager : MonoBehaviour
 		if (currentParallaxIndex > 0)
 		{
 			//decrease the size and increase depth of all parallaxes
-			for (var i = 0; i < parallaxes.Length; i++)
+			for (var i = currentParallaxIndex; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, moveBackwardScale);
 				parallaxes[i].transform.position += (Vector3.forward * depthChange);
-			}
+			}	
 			
 			currentParallaxIndex -= 1;
 			currentParallax = parallaxes[currentParallaxIndex];
+			
+			currentParallax.transform.localScale = currentParallax.initialScale;
+			currentParallax.transform.position = new Vector3(currentParallax.transform.position.x, currentParallax.transform.position.y, 0);
 		}
 	}
 }
