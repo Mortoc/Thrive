@@ -15,6 +15,12 @@ public class FriendlyProjectile : MonoBehaviour
 	
 	void Update()
 	{
+		if( !Target )
+		{
+			Destroy(gameObject);
+			return;
+		}
+		
 		Vector3 targetPosition = _targetOffset + Target.transform.position;
 		_speed += Acceleration * Time.deltaTime;
 		

@@ -11,7 +11,74 @@ public class ParallaxObject : MonoBehaviour
 	
 	private float cameraInitialPosition;
 	
+	private List<GameObject> _children = new List<GameObject>();
 	
+	public void AddGameObjectToLayer(GameObject go)
+	{
+		foreach( Renderer childRenderer in go.GetComponentsInChildren<Renderer>() )
+			childRenderer.enabled = _showing;			
+		
+		_children.Add(go);
+	}
+	
+	public void RemoveObjectFromLayer(GameObject go)
+	{
+		_children.Remove(go);
+	}
+	
+	private bool _showing = true;
+	
+	public void Hide()
+	{
+		List<GameObject> destroyedGameObjects = new List<GameObject>();
+		foreach( GameObject go in ChildrenAndMe() )
+		{
+			if( !go )
+			{
+				destroyedGameObjects.Add(go);
+			}
+			else
+			{
+				foreach( Renderer childRenderer in go.GetComponentsInChildren<Renderer>() )
+					childRenderer.enabled = false;
+			}
+		}
+		
+		destroyedGameObjects.ForEach( g => _children.Remove(g) );
+		
+		_showing = false;
+	}
+	
+	private IEnumerable<GameObject> ChildrenAndMe()
+	{
+		foreach(GameObject child in _children)
+			yield return child;
+		
+		yield return gameObject;
+	}
+	
+	public void Show()
+	{
+		List<GameObject> destroyedGameObjects = new List<GameObject>();
+				
+		foreach( GameObject go in ChildrenAndMe() )
+		{
+			if( !go )
+			{
+				destroyedGameObjects.Add(go);
+			}
+			else
+			{
+				foreach( Renderer childRenderer in go.GetComponentsInChildren<Renderer>() )
+					childRenderer.enabled = true;
+			}
+		}
+		
+		
+		destroyedGameObjects.ForEach( g => _children.Remove(g) );
+		
+		_showing = true;
+	}
 	
 	
 	void Start()

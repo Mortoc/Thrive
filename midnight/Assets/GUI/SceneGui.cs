@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class SceneGui : MonoBehaviour 
 {
+	public GUIStyle PauseButton;
+	private GUIContent _pauseContent = new GUIContent(" ", "PauseButton");
 	public GUIStyle PlaceObjectsButton;
 	private GUIContent _placeObjectsContent = new GUIContent(" ", "PlaceObjectsButton");
 	public GUIStyle moveButton;
@@ -23,9 +25,11 @@ public class SceneGui : MonoBehaviour
 	
 	void OnGUI()
 	{
-		GUILayout.BeginArea(new Rect(0.0f, 0.0f, Screen.width, Screen.height));
+		GUILayout.BeginArea( new Rect(0.0f, 0.0f, Screen.width, Screen.height) );
 		
 		GUILayout.BeginHorizontal();
+		
+		GUILayout.Space(10.0f);
 		
 		if( GUILayout.Toggle( _mainCharacter.CurrentMode == MainCharacter.Mode.ObjectPlacement, _placeObjectsContent, PlaceObjectsButton ) )
 		{
@@ -36,6 +40,15 @@ public class SceneGui : MonoBehaviour
 		{
 			_mainCharacter.CurrentMode = MainCharacter.Mode.Walking;
 		}
+		
+		GUILayout.FlexibleSpace();
+		
+		if( GUILayout.Button(_pauseContent, PauseButton) )
+		{
+			Application.LoadLevel(Application.loadedLevelName);
+		}
+		
+		GUILayout.Space(10.0f);
 		
 		GUILayout.EndHorizontal();
 		

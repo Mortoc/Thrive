@@ -1,8 +1,13 @@
 using UnityEngine;
+
+using System;
 using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour 
 {
+	public ParallaxObject AttachedLayer;
+	public event Action OnDeath;
+	
 	public float AccelerationNoise = 0.1f;
 	public float Acceleration = 20.0f;
 	
@@ -35,7 +40,7 @@ public class Enemy : MonoBehaviour
 	
 	private static float RandomVarietyFactor(float variety)
 	{
-		return 1.0f + ((2.0f * Random.value * variety) - variety);
+		return 1.0f + ((2.0f * UnityEngine.Random.value * variety) - variety);
 	}
 	
 	void Start()
@@ -65,8 +70,19 @@ public class Enemy : MonoBehaviour
 		GameObject deadMe = (GameObject)Instantiate(DeadPrefab);
 		deadMe.transform.position = transform.position;
 		
+		
+		RaycastHit rh;
+		if( Physics.Raycast(new Ray(transform.position + (Vector3.up * 25.0f), Vector3.down), out rh, Mathf.Infinity, 1 << LayerMask.NameToLayer("Ground")) )
+		{
+			deadMe.transform.position = rh.point;
+			deadMe.transform.up = rh.normal;
+		}		
+		
 		if( _attackShipTask != null )
 			_attackShipTask.Exit();
+		
+		if( OnDeath != null )
+			OnDeath();
 		
 		Destroy(gameObject);
 	}
@@ -94,7 +110,7 @@ public class Enemy : MonoBehaviour
 	}
 	
 	void FixedUpdate()
-	{
+	{		
 		// Close enough to attack the ship
 		if( CurrentState != State.Attacking && ShouldBeAttacking() )
 		{

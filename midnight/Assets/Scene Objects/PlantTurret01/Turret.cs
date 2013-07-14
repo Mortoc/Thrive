@@ -3,10 +3,15 @@ using System.Collections.Generic;
 
 public class Turret : MonoBehaviour 
 {
+	
+	public ParallaxObject AttachedLayer;
+	
 	public float AttackRange = 750.0f;
 	private float _attackRangeSqr;
 	public float AttackRate = 1.0f;
 	public int AttackDamage = 334;
+	
+	public float ZThreshold = 50.0f;
 	
 	public GameObject ProjectilePrefab;
 	public Transform ProjectileEmitter;
@@ -16,7 +21,6 @@ public class Turret : MonoBehaviour
 	void Start()
 	{
 		_attackRangeSqr = AttackRange * AttackRange;
-		
 		Scheduler.Run(CheckForEnemiesToAttack());
 	}
 	
@@ -29,7 +33,8 @@ public class Turret : MonoBehaviour
 			foreach( Enemy enemy in Find.ObjectsInScene<Enemy>() )
 			{
 				float distSqr = (transform.position - enemy.transform.position).sqrMagnitude;
-				if( distSqr < nearestSqr )
+				if( distSqr < nearestSqr && 
+					Mathf.Abs(transform.position.z - enemy.transform.position.z) < ZThreshold )
 				{
 					nearestSqr = distSqr;
 					nearest = enemy;
@@ -42,6 +47,7 @@ public class Turret : MonoBehaviour
 				projectile.transform.position = ProjectileEmitter.position;
 				projectile.GetComponent<FriendlyProjectile>().Target = nearest;
 				projectile.GetComponent<FriendlyProjectile>().Damage = AttackDamage;
+				
 				yield return new YieldForSeconds(AttackRate);
 			}
 			else

@@ -42,18 +42,21 @@ public class ParallaxManager : MonoBehaviour
 			//increase the size and decrease depth of the current parallax
 			
 			for (var i = 0; i <= currentParallaxIndex; i++)
-			{
-				parallaxes[i].transform.localScale = new Vector3(0,0,0);
+			{				
+				parallaxes[i].Hide();
 			}
 			
 			for (var i = currentParallaxIndex + 1; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, moveForwardScale);
 				parallaxes[i].transform.position -= (Vector3.forward * depthChange);
+				parallaxes[i].Show();
 			}
 			
 			currentParallaxIndex += 1;
+			
 			currentParallax = parallaxes[currentParallaxIndex];
+			currentParallax.Show();
 		}
 	}
 	
@@ -69,9 +72,10 @@ public class ParallaxManager : MonoBehaviour
 			}	
 			
 			currentParallaxIndex -= 1;
-			currentParallax = parallaxes[currentParallaxIndex];
 			
-			currentParallax.transform.localScale = currentParallax.initialScale;
+			currentParallax = parallaxes[currentParallaxIndex];
+			currentParallax.Show();
+			
 			currentParallax.transform.position = new Vector3(currentParallax.transform.position.x, currentParallax.transform.position.y, 0);
 		}
 	}

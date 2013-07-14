@@ -9,9 +9,9 @@ public class MainCharacter : MonoBehaviour
 	public float floatiness = 0.2f;
 	public float floatSpeed = 3.0f;
 	
-	private float _initialHeight;
 	private CharacterController _controller;
 	
+	public GameObject SelectedTurret;
 	
 	public AudioClip jetpackSound;
 	
@@ -39,8 +39,6 @@ public class MainCharacter : MonoBehaviour
 		CurrentMode = Mode.Walking;
 		_controller = GetComponent<CharacterController>();
 		
-		_initialHeight = _controller.height;
-		
 		if (!audio)
 		{
 			gameObject.AddComponent<AudioSource>();
@@ -57,7 +55,6 @@ public class MainCharacter : MonoBehaviour
 		
 		if (!audio.isPlaying)
 		{
-			Debug.Log("test");
 			audio.Play();
 		}
 		
@@ -70,6 +67,7 @@ public class MainCharacter : MonoBehaviour
 	
 	void FixedUpdate()
 	{
+		verticalAcceleration += Mathf.Sin(Time.time * 10.0f) * 1.0f;
 		verticalAcceleration -= gravity;
 		if (verticalAcceleration < -1.0f * maxVerticalAcceleration)
 		{

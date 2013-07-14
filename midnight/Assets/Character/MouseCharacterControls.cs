@@ -2,21 +2,21 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class MouseCharacterControls : CharacterControls 
-{
-	private ITask _moveTask = null;
-	
+{	
 	void Update()
 	{
 		if ( Input.GetMouseButton(0) && !Gui.IsMouseOver() )
 		{
-			MoveToClick(Input.mousePosition);
+			if( Character.CurrentMode == MainCharacter.Mode.Walking )
+				MoveToClick(Input.mousePosition);
+			else if( Character.CurrentMode == MainCharacter.Mode.ObjectPlacement )
+				PlaceObject( Input.mousePosition );
 		}
 		
 		if( Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow ) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) )
 		{
 			Character.JumpParallax();
 		}
-		
 	}
 	
 	
@@ -49,6 +49,4 @@ public class MouseCharacterControls : CharacterControls
 		}
 		Character.AccelerateUp();
 	}
-	
-
 }
