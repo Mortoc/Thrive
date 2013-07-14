@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class MouseCharacterControls : CharacterControls 
 {
 	private ITask _moveTask = null;
-	private float _moveEpsilon = 50.0f;
 	
 	void Update()
 	{
@@ -33,7 +32,6 @@ public class MouseCharacterControls : CharacterControls
 	{
 		float targetDir = target.x < transform.position.x ? -1.0f : 1.0f;
 		float frameSpeed = CharacterSpeed * Time.deltaTime;
-		float frameSpeedSqr = frameSpeed * frameSpeed;
 		float frameVelocity = targetDir * frameSpeed;
 		
 		while( (target.x < transform.position.x ? -1.0f : 1.0f) == targetDir ) 
