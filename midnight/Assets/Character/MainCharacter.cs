@@ -30,8 +30,8 @@ public class MainCharacter : MonoBehaviour
 	public float maxHorizontalAcceleration = 3.0f;
 	public float maxHorizontalVelocity = 3.0f;
 	
-	public float jumpParallaxSpeed = 10.0f;
-	
+	public float jumpParallaxSpeed = 30.0f;
+	public float jumpParallaxHeight = 450.0f;
 	public float maxHeight = 500.0f;
 	
 	void Start()
@@ -57,7 +57,6 @@ public class MainCharacter : MonoBehaviour
 		
 		if (!audio.isPlaying)
 		{
-			Debug.Log("test");
 			audio.Play();
 		}
 		
@@ -110,13 +109,14 @@ public class MainCharacter : MonoBehaviour
 		
 		
 		if (transform.position.y + verticalVelocity > maxHeight)
-		{
-			_controller.Move(new Vector3(horizontalVelocity, 0, 0));
+		{		
+			verticalAcceleration = 0;
+			verticalVelocity = 0;
 		}
-		else
-		{
+		
+		
 			_controller.Move(new Vector3(horizontalVelocity, verticalVelocity, 0));
-		}
+		
 	}
 	
 	public void AccelerateUp()
@@ -149,7 +149,11 @@ public class MainCharacter : MonoBehaviour
 	
 	public void JumpParallax()
 	{
-		verticalAcceleration += jumpParallaxSpeed;	
+		//if (transform.position.y + jumpParallaxSpeed < jumpParallaxHeight)
+	//	{
+			verticalAcceleration += jumpParallaxSpeed;	
+	//	}
+		
 	}
 	
 }

@@ -47,6 +47,7 @@ public class MouseCharacterControls : CharacterControls
 		{
 			Character.AccelerateRight();
 		}
+		
 		Character.AccelerateUp();
 	}
 	
