@@ -7,7 +7,7 @@ public class MouseCharacterControls : CharacterControls
 	
 	void Update()
 	{
-		if( Input.GetMouseButtonDown(0) )
+		if( Input.GetMouseButtonDown(0) && !Gui.IsMouseOver() )
 		{
 			MoveToClick(Input.mousePosition);
 		}
@@ -21,6 +21,14 @@ public class MouseCharacterControls : CharacterControls
 	
 	private void MoveToClick(Vector3 screenPosition)
 	{
+		
+		if( Character.CurrentMode != MainCharacter.Mode.Walking )
+			return; // ignore, the character isn't walking now
+		
+		if( screenPosition.x > (Screen.width - 1) || screenPosition.x < 1 ||
+			screenPosition.y > (Screen.height - 1) || screenPosition.y < 1 )
+			return; // ignore it, click was outside the game window
+		
 		// get level-plane position of click
 		Ray clickRay = Camera.main.ScreenPointToRay(screenPosition);
 		float zDistToCamera = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
