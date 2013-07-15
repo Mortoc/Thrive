@@ -19,6 +19,7 @@ public abstract class CharacterControls : MonoBehaviour
 	
 	
 	// Move the character
+	/*
 	protected void Translate(float translation)
 	{
 		CharacterController controller = GetComponent<CharacterController>();
@@ -32,6 +33,7 @@ public abstract class CharacterControls : MonoBehaviour
 		OTSprite sprite = GetComponent<OTSprite>();
 		sprite.flipHorizontal = translation > 0.0f;
 	}
+	*/
 	
 	protected virtual void PlaceObject(Vector3 position)
 	{

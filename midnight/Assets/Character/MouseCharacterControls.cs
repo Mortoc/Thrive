@@ -13,9 +13,13 @@ public class MouseCharacterControls : CharacterControls
 				PlaceObject( Input.mousePosition );
 		}
 		
-		if( Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow ) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) )
+		if( Input.GetKeyDown(KeyCode.UpArrow) ||  Input.GetKeyDown(KeyCode.W) )
 		{
-			Character.JumpParallax();
+			Character.JumpParallaxForward();
+		}
+		else if (Input.GetKeyUp(KeyCode.DownArrow ) || Input.GetKeyDown(KeyCode.S))
+		{
+			Character.JumpParallaxBackward();
 		}
 	}
 	

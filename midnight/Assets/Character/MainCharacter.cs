@@ -34,6 +34,7 @@ public class MainCharacter : MonoBehaviour
 	public float jumpParallaxHeight = 450.0f;
 	public float maxHeight = 500.0f;
 	
+	public float floatyNumber = 10.0f;
 	void Start()
 	{
 		CurrentMode = Mode.Walking;
@@ -49,25 +50,26 @@ public class MainCharacter : MonoBehaviour
 	
 	void Update()
 	{
-		//make sure her Z is 0
-		transform.position = new Vector3(transform.position.x, transform.position.y, 0.0f);
+		//Keep her Z to the closest 100 to make up for wobble
+		transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z/100.0f) * 100.0f);
 		
 		
 		if (!audio.isPlaying)
 		{
 			audio.Play();
 		}
-		
-		//hover
-		/*
-		float t = (0.5f * Mathf.Sin (Time.time * floatSpeed)) + 0.5f;
-		_controller.height = Mathf.Lerp(1.0f - floatiness, 1.0f + floatiness, t) * _initialHeight;
-		*/
 	}
 	
 	void FixedUpdate()
 	{
-		verticalAcceleration += Mathf.Sin(Time.time * 10.0f) * 1.0f;
+		ApplyPhysics();
+		
+	}
+	
+	protected void ApplyPhysics()
+	{	
+		verticalAcceleration += Mathf.Sin(Time.time * floatyNumber);
+		
 		verticalAcceleration -= gravity;
 		if (verticalAcceleration < -1.0f * maxVerticalAcceleration)
 		{
@@ -103,6 +105,8 @@ public class MainCharacter : MonoBehaviour
 			}
 		}
 		
+		
+		
 		OTSprite sprite = GetComponent<OTSprite>();
 		sprite.flipHorizontal = horizontalVelocity > 0.0f;
 		
@@ -115,6 +119,7 @@ public class MainCharacter : MonoBehaviour
 		
 		
 			_controller.Move(new Vector3(horizontalVelocity, verticalVelocity, 0));
+			
 		
 	}
 	
@@ -146,13 +151,16 @@ public class MainCharacter : MonoBehaviour
 		}
 	}
 	
-	public void JumpParallax()
+	public void JumpParallaxBackward()
 	{
-		//if (transform.position.y + jumpParallaxSpeed < jumpParallaxHeight)
-	//	{
-			verticalAcceleration += jumpParallaxSpeed;	
-	//	}
-		
+		transform.position += Vector3.back * 100.0f;
+		verticalAcceleration += jumpParallaxSpeed;	
+	}
+	
+	public void JumpParallaxForward()
+	{
+		transform.position += Vector3.forward * 100.0f;
+		verticalAcceleration += jumpParallaxSpeed;	
 	}
 	
 }

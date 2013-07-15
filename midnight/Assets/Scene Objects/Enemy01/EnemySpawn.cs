@@ -31,6 +31,10 @@ public class EnemySpawn : MonoBehaviour
 				GameObject enemy = (GameObject)Instantiate(EnemyPrefab);
 				enemy.transform.position = transform.position;
 				
+				OTSprite enemySprite = enemy.GetComponent<OTSprite>();
+				enemySprite.depth = (int) transform.position.z;
+				
+				
 				yield return new YieldForSeconds(timePerSpawn);
 			}
 			

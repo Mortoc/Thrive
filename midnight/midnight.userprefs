@@ -1,12 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Character/CharacterControls.cs">
-    <Files>
-      <File FileName="Assets/Character/MainCharacter.cs" Line="14" Column="35" />
-      <File FileName="Assets/Character/MouseCharacterControls.cs" Line="51" Column="3" />
-      <File FileName="Assets/Character/CharacterControls.cs" Line="55" Column="2" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -15,6 +15,8 @@ public class ParallaxManager : MonoBehaviour
 	
 	void Start()
 	{
+		Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -1);
+		
 		if (parallaxes.Length > 0)
 		{
 			currentParallax = parallaxes[0];	
@@ -24,6 +26,7 @@ public class ParallaxManager : MonoBehaviour
 	
 	void Update()
 	{
+	
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
 		{
 			ShiftForward();
@@ -37,6 +40,11 @@ public class ParallaxManager : MonoBehaviour
 	
 	public void ShiftForward()
 	{
+	
+		Camera.main.transform.position += Vector3.forward * 100.0f;
+
+		
+		/*
 		if (currentParallaxIndex + 1 < parallaxes.Length)
 		{
 			//increase the size and decrease depth of the current parallax
@@ -58,10 +66,13 @@ public class ParallaxManager : MonoBehaviour
 			currentParallax = parallaxes[currentParallaxIndex];
 			currentParallax.Show();
 		}
+		*/
 	}
 	
 	public void ShiftBackward()
 	{
+		Camera.main.transform.position += Vector3.back * 100.0f;
+		/*
 		if (currentParallaxIndex > 0)
 		{
 			//decrease the size and increase depth of all parallaxes
@@ -78,5 +89,6 @@ public class ParallaxManager : MonoBehaviour
 			
 			currentParallax.transform.position = new Vector3(currentParallax.transform.position.x, currentParallax.transform.position.y, 0);
 		}
+		*/
 	}
 }
