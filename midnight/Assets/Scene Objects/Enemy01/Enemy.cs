@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
 	public ParallaxObject AttachedLayer;
 	public event Action OnDeath;
+	private float DeadScale = 1.0f;
 	
 	public float AccelerationNoise = 0.1f;
 	public float Acceleration = 20.0f;
@@ -48,7 +49,8 @@ public class Enemy : MonoBehaviour
 		_controller = GetComponent<CharacterController>();
 		_spaceship = Find.ObjectInScene<Spaceship>();
 		AttackDistance *= RandomVarietyFactor( AttackDistanceVariety );
-		transform.localScale *= RandomVarietyFactor( ScaleVariety );
+		DeadScale = RandomVarietyFactor( ScaleVariety );
+		transform.localScale *= DeadScale;
 		_attackDistSqr = AttackDistance * AttackDistance;
 		
 		MaxSpeed *= RandomVarietyFactor( MaxSpeedVariety );
@@ -76,6 +78,9 @@ public class Enemy : MonoBehaviour
 		{
 			deadMe.transform.position = rh.point;
 			deadMe.transform.up = rh.normal;
+			deadMe.transform.localScale *= DeadScale * DeadScale;
+			
+			deadMe.GetComponent<OTSprite>().flipHorizontal = UnityEngine.Random.value > 0.5f;
 		}		
 		
 		if( _attackShipTask != null )

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class EnemySpawn : MonoBehaviour 
 {
-	public ParallaxObject AttachedLayer;
 	public GameObject EnemyPrefab;
 	public int GroupSizeJitter = 2;
 	public int GroupSize = 4;
@@ -22,7 +21,7 @@ public class EnemySpawn : MonoBehaviour
 		yield return new YieldForSeconds(InitialWait);
 		
 		while( gameObject )
-		{			
+		{
 			int thisGroupSize = Random.Range(GroupSize - GroupSizeJitter, GroupSize + GroupSizeJitter);		
 			float timePerSpawn = GroupTime / (float)thisGroupSize;
 			
@@ -33,7 +32,6 @@ public class EnemySpawn : MonoBehaviour
 				
 				OTSprite enemySprite = enemy.GetComponent<OTSprite>();
 				enemySprite.depth = (int) transform.position.z;
-				
 				
 				yield return new YieldForSeconds(timePerSpawn);
 			}
