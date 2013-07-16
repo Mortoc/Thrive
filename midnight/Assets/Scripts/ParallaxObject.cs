@@ -5,9 +5,7 @@ public class ParallaxObject : MonoBehaviour
 {
 	public float MoveFactor;
 	
-	public float scale;
 	public Vector3 initialPosition;
-	public Vector3 initialScale;
 	
 	private float cameraInitialPosition;
 	
@@ -84,7 +82,6 @@ public class ParallaxObject : MonoBehaviour
 	void Start()
 	{
 		cameraInitialPosition = Camera.main.transform.position.x;
-		initialScale = transform.localScale;
 		transform.position = initialPosition;
 	}
 	
@@ -92,6 +89,7 @@ public class ParallaxObject : MonoBehaviour
 	{
 		//see how much the camera has moved and move this object along with the camera scaled by the factor
 		float cameraOffset = Camera.main.transform.position.x - cameraInitialPosition;
+		//TODO : Deal with other things that are on the current ParallaxObject (turrets, enemies etc)
 		Vector3 objectOffset = cameraOffset * MoveFactor * Vector3.right;
 		
 		//maintain current Z position

@@ -26,12 +26,14 @@ public class MainCharacter : MonoBehaviour
 	public float horizontalForceFromTap = 1.0f;
 	public float horizontalVelocity = 0.0f;
 	public float horizontalAcceleration = 0.0f;
-	public float horizontalFriction = 0.1f;
+	public float horizontalFriction = 0.02f;
 	public float maxHorizontalAcceleration = 3.0f;
 	public float maxHorizontalVelocity = 3.0f;
 	
 	public float jumpParallaxSpeed = 30.0f;
 	public float jumpParallaxHeight = 450.0f;
+	
+	
 	public float maxHeight = 500.0f;
 	
 	public float floatyNumber = 10.0f;
@@ -66,9 +68,30 @@ public class MainCharacter : MonoBehaviour
 		
 	}
 	
+	
 	protected void ApplyPhysics()
 	{	
-		verticalAcceleration += Mathf.Sin(Time.time * floatyNumber);
+				
+		ApplyHorizontalPhysics();
+		ApplyVerticalPhysics();
+		
+		
+		//Keep her within screen border
+		if (transform.position.y + verticalVelocity > maxHeight)
+		{		
+			verticalAcceleration = 0;
+			verticalVelocity = 0;
+		}
+			
+		
+		_controller.Move(new Vector3(horizontalVelocity, verticalVelocity, 0));
+		
+	}
+	
+	protected void ApplyVerticalPhysics()
+		
+	{
+			//verticalAcceleration += Mathf.Sin(Time.time * floatyNumber);
 		
 		verticalAcceleration -= gravity;
 		if (verticalAcceleration < -1.0f * maxVerticalAcceleration)
@@ -86,16 +109,48 @@ public class MainCharacter : MonoBehaviour
 		{
 			verticalVelocity = -1.0f * maxVerticalVelocity;	
 		}
+	}
+		
+	
+	protected void ApplyHorizontalPhysics()
+	{
+		if (horizontalAcceleration > 0)
+		{
+			horizontalAcceleration -= horizontalAcceleration * horizontalFriction;
+			if (horizontalAcceleration < .01)
+			{
+				horizontalAcceleration = 0;	
+			}
+		}
+		else if (horizontalAcceleration < 0)
+		{
+			horizontalAcceleration -= horizontalAcceleration * horizontalFriction;
+			if (horizontalAcceleration > -.01)
+			{
+				horizontalAcceleration = 0;	
+			}
+		}
 		
 		
-		if (horizontalVelocity > 0)
+		if (horizontalAcceleration > maxHorizontalAcceleration)
+		{
+			horizontalAcceleration = maxHorizontalAcceleration;	
+		}
+		if (horizontalAcceleration < -1.0f * maxHorizontalAcceleration)
+		{
+			horizontalAcceleration = -1.0f * maxHorizontalAcceleration;	
+		}
+		
+		horizontalVelocity += horizontalAcceleration;
+		if (horizontalVelocity > 0 )
 		{
 			horizontalVelocity -= horizontalFriction;
 			if (horizontalVelocity < 0)
 			{
-				horizontalVelocity = 0;	
+				horizontalVelocity = 0;
 			}
 		}
+		
 		else if (horizontalVelocity < 0)
 		{
 			horizontalVelocity += horizontalFriction;
@@ -105,22 +160,18 @@ public class MainCharacter : MonoBehaviour
 			}
 		}
 		
-		
+		if (horizontalVelocity > maxHorizontalVelocity)
+		{
+			horizontalVelocity = maxHorizontalVelocity;	
+		}
+		if (horizontalVelocity < -1.0f * maxHorizontalVelocity)
+		{
+			horizontalVelocity = -1.0f * maxHorizontalVelocity;	
+		}
 		
 		OTSprite sprite = GetComponent<OTSprite>();
 		sprite.flipHorizontal = horizontalVelocity > 0.0f;
-		
-		
-		if (transform.position.y + verticalVelocity > maxHeight)
-		{		
-			verticalAcceleration = 0;
-			verticalVelocity = 0;
-		}
-		
-		
-			_controller.Move(new Vector3(horizontalVelocity, verticalVelocity, 0));
-			
-		
+
 	}
 	
 	public void AccelerateUp()
@@ -135,19 +186,19 @@ public class MainCharacter : MonoBehaviour
 	
 	public void AccelerateRight()
 	{
-		horizontalVelocity += horizontalForceFromTap;
-		if (horizontalVelocity > maxHorizontalVelocity)	
+		horizontalAcceleration += horizontalForceFromTap;
+		if (horizontalAcceleration > maxHorizontalAcceleration)	
 		{
-			horizontalVelocity = maxHorizontalVelocity;
+			horizontalAcceleration = maxHorizontalAcceleration;
 		}
 	}
 	
 	public void AccelerateLeft()
 	{
-		horizontalVelocity -= horizontalForceFromTap;
-		if (horizontalVelocity < -1.0f * maxHorizontalVelocity)
+		horizontalAcceleration -= horizontalForceFromTap;
+		if (horizontalAcceleration < -1.0f * maxHorizontalAcceleration)
 		{
-			horizontalVelocity = -1.0f * maxHorizontalVelocity;
+			horizontalAcceleration = -1.0f * maxHorizontalAcceleration;
 		}
 	}
 	
