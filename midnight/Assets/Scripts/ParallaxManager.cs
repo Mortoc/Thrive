@@ -6,12 +6,11 @@ public class ParallaxManager : MonoBehaviour
 	public ParallaxObject[] parallaxes;
 	
 	private ParallaxObject currentParallax;
-	private int currentParallaxIndex;
+	public int currentParallaxIndex;
 	
-	public Vector3 moveForwardScale;
-	public Vector3 moveBackwardScale;
+	public Vector3 moveForwardScale = new Vector3(1.0f, 1.0f, 1.0f);
+	public Vector3 moveBackwardScale = new Vector3(1.0f, 1.0f, 1.0f);
 	
-	public float depthChange;
 	
 	void Start()
 	{
@@ -38,11 +37,22 @@ public class ParallaxManager : MonoBehaviour
 		}
 	}
 	
+	//going from layer 0 towards layer 1
 	public void ShiftForward()
 	{
 	
 		Camera.main.transform.position += Vector3.forward * 100.0f;
-
+		
+		if (currentParallaxIndex + 1 < parallaxes.Length)
+		{
+			for (var i = 0; i < parallaxes.Length; i++)
+			{
+				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, moveForwardScale);
+			}
+			
+			currentParallaxIndex += 1;
+		}
+		
 		
 		/*
 		if (currentParallaxIndex + 1 < parallaxes.Length)
@@ -72,6 +82,16 @@ public class ParallaxManager : MonoBehaviour
 	public void ShiftBackward()
 	{
 		Camera.main.transform.position += Vector3.back * 100.0f;
+		if (currentParallaxIndex - 1 >= 0)
+		{
+			for (var i = 0; i < parallaxes.Length; i++)
+			{
+				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, moveBackwardScale);
+			}
+			
+			currentParallaxIndex -= 1;
+		}
+		
 		/*
 		if (currentParallaxIndex > 0)
 		{
