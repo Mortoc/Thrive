@@ -10,7 +10,7 @@ public class MainCharacter : MonoBehaviour
 	public float floatSpeed = 3.0f;
 	
 	private CharacterController _controller;
-	
+	private float _zIndex = 0;
 	public GameObject SelectedTurret;
 	
 	public AudioClip jetpackSound;
@@ -34,8 +34,6 @@ public class MainCharacter : MonoBehaviour
 	public float jumpParallaxHeight = 450.0f;
 	
 	
-	public float maxHeight = 500.0f;
-	
 	public float floatyNumber = 10.0f;
 	void Start()
 	{
@@ -53,7 +51,7 @@ public class MainCharacter : MonoBehaviour
 	void Update()
 	{
 		//Keep her Z to the closest 100 to make up for wobble
-		transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Round(transform.position.z/100.0f) * 100.0f);
+		transform.position = new Vector3(transform.position.x, transform.position.y, _zIndex);
 		
 		
 		if (!audio.isPlaying)
@@ -74,16 +72,7 @@ public class MainCharacter : MonoBehaviour
 				
 		ApplyHorizontalPhysics();
 		ApplyVerticalPhysics();
-		
-		
-		//Keep her within screen border
-		if (transform.position.y + verticalVelocity > maxHeight)
-		{		
-			verticalAcceleration = 0;
-			verticalVelocity = 0;
-		}
 			
-		
 		_controller.Move(new Vector3(horizontalVelocity, verticalVelocity, 0));
 		
 	}
@@ -204,13 +193,15 @@ public class MainCharacter : MonoBehaviour
 	
 	public void JumpParallaxBackward()
 	{
-		transform.position += Vector3.back * 100.0f;
+		//change the characters Z, then make her jump
+		_zIndex -= 100;
 		verticalAcceleration += jumpParallaxSpeed;	
 	}
 	
 	public void JumpParallaxForward()
 	{
-		transform.position += Vector3.forward * 100.0f;
+		//change the characters Z, then make her jump
+		_zIndex += 100;
 		verticalAcceleration += jumpParallaxSpeed;	
 	}
 	
