@@ -12,7 +12,11 @@ public class FriendlyProjectile : MonoBehaviour
 	public Enemy Target;
 	public Vector3 _targetOffset;
 	
-	
+	public float _initialZ;
+	void Start()
+	{
+		_initialZ = transform.position.z;
+	}
 	void Update()
 	{
 		if( !Target )
@@ -29,6 +33,7 @@ public class FriendlyProjectile : MonoBehaviour
 		
 		float translation = _speed * Time.deltaTime;
 		transform.position += translation * (targetPosition - transform.position).normalized;
+		transform.position = new Vector3(transform.position.x, transform.position.y, _initialZ);
 		
 		if( (targetPosition - transform.position).sqrMagnitude < (translation * translation) )
 		{

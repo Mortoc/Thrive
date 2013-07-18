@@ -7,9 +7,12 @@ public class ParallaxObject : MonoBehaviour
 	
 	public Vector3 initialPosition;
 	
+	//set in ParallaxManager
+	public Vector3 initialScale;
+	
 	private float cameraInitialPosition;
 	
-	private List<GameObject> _children = new List<GameObject>();
+	public List<GameObject> _children = new List<GameObject>();
 	
 	public void AddGameObjectToLayer(GameObject go)
 	{
@@ -92,7 +95,17 @@ public class ParallaxObject : MonoBehaviour
 		//TODO : Deal with other things that are on the current ParallaxObject (turrets, enemies etc)
 		Vector3 objectOffset = cameraOffset * MoveFactor * Vector3.right;
 		
-		//maintain current Z position
+		Vector3 diff = transform.position - objectOffset;
 		transform.position = objectOffset + new Vector3(initialPosition.x, initialPosition.y, transform.position.z);
+		
+		//Move all the children of the layer the same amount 
+		if (objectOffset != Vector3.zero)
+		{
+			foreach( GameObject go in _children )
+			{
+				go.transform.position -= new Vector3(diff.x, 0, 0);
+			}
+		}
+		
 	}
 }

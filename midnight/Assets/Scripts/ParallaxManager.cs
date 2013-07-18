@@ -31,6 +31,7 @@ public class ParallaxManager : MonoBehaviour
 		{
 			currentParallax = parallaxes[0];	
 			currentParallaxIndex = 0;
+			parallaxes[0].initialScale = parallaxes[0].transform.localScale;
 		}
 		
 		//scale down layers
@@ -38,9 +39,17 @@ public class ParallaxManager : MonoBehaviour
 		{
 			for (var i = 1; i < parallaxes.Length; i++)
 			{
+				//If this isn't set here, then the initial scale will be set to the localScale after being modified below
+				parallaxes[i].initialScale = parallaxes[i].transform.localScale;
+				
+				//can't figure out how to raise a vector to a power, so loop to get the same effect
 				for (var j = 0; j < i; j++)
 				{
-					parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);	
+					parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
+					for (var k = 0; k < parallaxes[i]._children.Count; k++)
+					{
+						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
+					}
 				}
 				
 			}
@@ -73,6 +82,10 @@ public class ParallaxManager : MonoBehaviour
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, growScale);
+				for (var k = 0; k < parallaxes[i]._children.Count; k++)
+					{
+						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i]._children[k].transform.localScale, growScale);
+					}
 			}
 			
 			currentParallaxIndex += 1;
@@ -88,6 +101,10 @@ public class ParallaxManager : MonoBehaviour
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
+				for (var k = 0; k < parallaxes[i]._children.Count; k++)
+					{
+						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i]._children[k].transform.localScale, shrinkScale);
+					}
 			}
 			
 			currentParallaxIndex -= 1;
