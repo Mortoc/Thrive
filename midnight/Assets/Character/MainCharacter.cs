@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class MainCharacter : MonoBehaviour 
 {
 	public enum Mode { Walking, ObjectPlacement }
+	public ParallaxManager _ParallaxManager;
 	
 	public Mode CurrentMode { get; set; }
 	public float floatiness = 0.2f;
@@ -193,7 +194,9 @@ public class MainCharacter : MonoBehaviour
 	
 	public void JumpParallaxBackward()
 	{
+		_ParallaxManager.ShiftBackward();
 		//change the characters Z, then make her jump
+		//TODO: Grab the next parallax layer. Shift to it's Z.
 		if (_zIndex - 100 >= 0)
 		{
 			_zIndex -= 100;
@@ -203,7 +206,9 @@ public class MainCharacter : MonoBehaviour
 	
 	public void JumpParallaxForward()
 	{
+		_ParallaxManager.ShiftForward();
 		//change the characters Z, then make her jump
+		//TODO: Grab the next parallax layer. Shift to it's Z.
 		if (_zIndex + 100 < Find.ObjectInScene<ParallaxManager>().parallaxes.Length * 100)
 		{
 			_zIndex += 100;

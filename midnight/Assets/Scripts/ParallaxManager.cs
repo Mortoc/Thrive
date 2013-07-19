@@ -56,20 +56,7 @@ public class ParallaxManager : MonoBehaviour
 		}
 	}
 	
-	void Update()
-	{
-	
-		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-		{
-			ShiftForward();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-		{
-			ShiftBackward();
-		}
-	}
-	
+
 	//going from layer 0 towards layer 1
 	public void ShiftForward()
 	{	

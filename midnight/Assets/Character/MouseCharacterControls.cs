@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class MouseCharacterControls : CharacterControls 
-{	
+{		
 	void Update()
 	{
 		if ( Input.GetMouseButton(0) && !Gui.IsMouseOver() )
@@ -22,7 +22,6 @@ public class MouseCharacterControls : CharacterControls
 			Character.JumpParallaxBackward();
 		}
 	}
-	
 	
 	private void MoveToClick(Vector3 screenPosition)
 	{
