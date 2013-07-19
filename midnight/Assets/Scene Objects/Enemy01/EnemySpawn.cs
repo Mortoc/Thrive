@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class EnemySpawn : MonoBehaviour 
 {
+	public ParallaxObject ParallaxLayer;
 	public GameObject EnemyPrefab;
 	public int GroupSizeJitter = 2;
 	public int GroupSize = 4;
@@ -11,8 +12,14 @@ public class EnemySpawn : MonoBehaviour
 	public float GroupTime = 3.0f;
 	public float GroupRate = 12.0f;
 	
+	
 	void Start()
 	{
+		if (ParallaxLayer == null)
+		{
+			throw new System.Exception("Need to specify layer on EnemySpawn");	
+		}
+		
 		Scheduler.Run(Spawner());
 	}
 	
@@ -33,18 +40,11 @@ public class EnemySpawn : MonoBehaviour
 				OTSprite enemySprite = enemy.GetComponent<OTSprite>();
 				enemySprite.depth = (int) transform.position.z;
 				
+				Enemy en = enemy.GetComponent<Enemy>();
+				en.AttachedLayer = ParallaxLayer;
+				en.transform.parent = ParallaxLayer.transform.parent;
 				
-				var parallaxObj = transform.parent.GetComponent<ParallaxObject>();
-				
-				//need to scale enemy based on the layer he is on
-				Vector3 scaleChange = new Vector3(
-					parallaxObj.transform.localScale.x / parallaxObj.initialScale.x,
-					parallaxObj.transform.localScale.y / parallaxObj.initialScale.y,
-					parallaxObj.transform.localScale.z / parallaxObj.initialScale.z);
-					
-				enemySprite.size = new Vector2(enemy.transform.localScale.x * scaleChange.x, enemy.transform.localScale.y * scaleChange.y);
-				
-				parallaxObj.AddGameObjectToLayer(enemy);
+				ParallaxLayer.AddGameObjectToLayer(enemy);
 				
 				yield return new YieldForSeconds(timePerSpawn);
 			}

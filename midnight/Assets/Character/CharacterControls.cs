@@ -16,25 +16,7 @@ public abstract class CharacterControls : MonoBehaviour
 		
 		_groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
 	}
-	
-	
-	// Move the character
-	/*
-	protected void Translate(float translation)
-	{
-		CharacterController controller = GetComponent<CharacterController>();
-		controller.Move( new Vector3(translation, 0, 0));
 		
-		PostTranslate(translation);
-	}
-	
-	protected virtual void PostTranslate(float translation)
-	{ 
-		OTSprite sprite = GetComponent<OTSprite>();
-		sprite.flipHorizontal = translation > 0.0f;
-	}
-	*/
-	
 	protected virtual void PlaceObject(Vector3 position)
 	{
 		// Get the world space point at character depth
@@ -52,6 +34,12 @@ public abstract class CharacterControls : MonoBehaviour
 			turret.transform.up = rh.normal;
 			
 			Character.CurrentMode = MainCharacter.Mode.Walking;
+			
+			var parallaxLayer = rh.collider.GetComponent<ParallaxObject>();
+			
+			turret.transform.parent = parallaxLayer.transform.parent;
+			turret.GetComponent<Turret>().AttachedLayer = parallaxLayer;
+			parallaxLayer.AddGameObjectToLayer(turret);
 		}		
 	}
 	

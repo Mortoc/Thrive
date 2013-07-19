@@ -92,20 +92,13 @@ public class ParallaxObject : MonoBehaviour
 	{
 		//see how much the camera has moved and move this object along with the camera scaled by the factor
 		float cameraOffset = Camera.main.transform.position.x - cameraInitialPosition;
-		//TODO : Deal with other things that are on the current ParallaxObject (turrets, enemies etc)
 		Vector3 objectOffset = cameraOffset * MoveFactor * Vector3.right;
 		
-		Vector3 diff = transform.position - objectOffset;
-		transform.position = objectOffset + new Vector3(initialPosition.x, initialPosition.y, transform.position.z);
+		Vector3 diff = objectOffset - transform.position;
 		
-		//Move all the children of the layer the same amount 
 		if (objectOffset != Vector3.zero)
 		{
-			foreach( GameObject go in _children )
-			{
-				go.transform.position -= new Vector3(diff.x, 0, 0);
-			}
+			transform.parent.position += new Vector3(diff.x, 0, 0);
 		}
-		
 	}
 }

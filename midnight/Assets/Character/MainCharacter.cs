@@ -80,7 +80,7 @@ public class MainCharacter : MonoBehaviour
 	protected void ApplyVerticalPhysics()
 		
 	{
-			//verticalAcceleration += Mathf.Sin(Time.time * floatyNumber);
+		//verticalAcceleration += Mathf.Sin(Time.time * floatyNumber);
 		
 		verticalAcceleration -= gravity;
 		if (verticalAcceleration < -1.0f * maxVerticalAcceleration)

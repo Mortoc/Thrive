@@ -24,34 +24,34 @@ public class ParallaxManager : MonoBehaviour
 			Debug.Log("ParallaxManager scaling set to 0");	
 		}
 		
-		//Make sure camera is on correct Z
-		Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -1);
-		
 		if (parallaxes.Length > 0)
 		{
 			currentParallax = parallaxes[0];	
 			currentParallaxIndex = 0;
-			parallaxes[0].initialScale = parallaxes[0].transform.localScale;
-		}
-		
-		//scale down layers
-		if (parallaxes.Length > 1)
-		{
-			for (var i = 1; i < parallaxes.Length; i++)
+			for (var i = 0; i < parallaxes.Length; i++)
 			{
+				GameObject Scaler = new GameObject();
+				parallaxes[i].transform.parent = Scaler.transform;
 				//If this isn't set here, then the initial scale will be set to the localScale after being modified below
 				parallaxes[i].initialScale = parallaxes[i].transform.localScale;
-				
-				//can't figure out how to raise a vector to a power, so loop to get the same effect
-				for (var j = 0; j < i; j++)
+		
+				//shrink/grow all layers except for the initial one
+				if (i < currentParallaxIndex)
 				{
-					parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
-					for (var k = 0; k < parallaxes[i]._children.Count; k++)
+					//can't figure out how to raise a vector to a power, so loop to get the same effect
+					for (var j = 0; j < i; j++)
 					{
-						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
+						parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, growScale);
 					}
 				}
-				
+				if (i > currentParallaxIndex)
+				{
+					//can't figure out how to raise a vector to a power, so loop to get the same effect
+					for (var j = 0; j < i; j++)
+					{
+						parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, shrinkScale);
+					}
+				}
 			}
 		}
 	}
@@ -81,17 +81,14 @@ public class ParallaxManager : MonoBehaviour
 		{
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
-				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, growScale);
-				for (var k = 0; k < parallaxes[i]._children.Count; k++)
-					{
-						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i]._children[k].transform.localScale, growScale);
-					}
+				parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, growScale);
 			}
 			
 			currentParallaxIndex += 1;
 		}
 	}
 	
+	//going from layer 1 towards layer 0
 	public void ShiftBackward()
 	{
 		Camera.main.transform.position += Vector3.back * parallaxShiftZAmount;
@@ -100,11 +97,7 @@ public class ParallaxManager : MonoBehaviour
 		{
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
-				parallaxes[i].transform.localScale = Vector3.Scale(parallaxes[i].transform.localScale, shrinkScale);
-				for (var k = 0; k < parallaxes[i]._children.Count; k++)
-					{
-						parallaxes[i]._children[k].transform.localScale = Vector3.Scale(parallaxes[i]._children[k].transform.localScale, shrinkScale);
-					}
+				parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, shrinkScale);
 			}
 			
 			currentParallaxIndex -= 1;

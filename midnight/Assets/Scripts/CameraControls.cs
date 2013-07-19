@@ -10,6 +10,13 @@ public class CameraControls : MonoBehaviour
 	public float DecelerationPower = 50.0f;
 	private float _velocity = 0.0f;
 	
+	public float initialZ = -1;
+	
+	void Start()
+	{
+		//Make sure camera is on correct Z
+		Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, initialZ);	
+	}
 	
 	void Update()
 	{

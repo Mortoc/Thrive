@@ -81,10 +81,15 @@ public class Enemy : MonoBehaviour
 			deadMe.transform.localScale *= DeadScale * DeadScale;
 			
 			deadMe.GetComponent<OTSprite>().flipHorizontal = UnityEngine.Random.value > 0.5f;
+			
+			deadMe.transform.parent = transform.parent;
+			AttachedLayer.AddGameObjectToLayer(deadMe);
 		}		
 		
 		if( _attackShipTask != null )
 			_attackShipTask.Exit();
+		
+		AttachedLayer.RemoveObjectFromLayer(gameObject);
 		
 		if( OnDeath != null )
 			OnDeath();
