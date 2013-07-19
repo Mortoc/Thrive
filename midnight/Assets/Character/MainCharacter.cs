@@ -194,15 +194,21 @@ public class MainCharacter : MonoBehaviour
 	public void JumpParallaxBackward()
 	{
 		//change the characters Z, then make her jump
-		_zIndex -= 100;
-		verticalAcceleration += jumpParallaxSpeed;	
+		if (_zIndex - 100 >= 0)
+		{
+			_zIndex -= 100;
+			verticalAcceleration += jumpParallaxSpeed;	
+		}
 	}
 	
 	public void JumpParallaxForward()
 	{
 		//change the characters Z, then make her jump
-		_zIndex += 100;
-		verticalAcceleration += jumpParallaxSpeed;	
+		if (_zIndex + 100 < Find.ObjectInScene<ParallaxManager>().parallaxes.Length * 100)
+		{
+			_zIndex += 100;
+			verticalAcceleration += jumpParallaxSpeed;	
+		}
 	}
 	
 }

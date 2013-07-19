@@ -105,6 +105,9 @@ public class Enemy : MonoBehaviour
 			projectile.transform.position = AttackEmitter.position;
 			projectile.GetComponent<EnemyProjectile>().Damage = AttackDamage;
 			
+			OTSprite projectileSprite = projectile.GetComponent<OTSprite>();
+			projectileSprite.depth = (int) transform.position.z;
+			
 			yield return new YieldForSeconds(AttackRate);
 		}
 		

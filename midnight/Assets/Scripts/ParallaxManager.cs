@@ -72,13 +72,12 @@ public class ParallaxManager : MonoBehaviour
 	
 	//going from layer 0 towards layer 1
 	public void ShiftForward()
-	{
-	
-		Camera.main.transform.position += Vector3.forward * parallaxShiftZAmount;
-		Camera.main.transform.position += Vector3.up * parallaxShiftYAmount;
-		
+	{	
 		if (currentParallaxIndex + 1 < parallaxes.Length)
 		{
+			Camera.main.transform.position += Vector3.forward * parallaxShiftZAmount;
+			Camera.main.transform.position += Vector3.up * parallaxShiftYAmount;
+			
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, growScale);
@@ -91,10 +90,11 @@ public class ParallaxManager : MonoBehaviour
 	//going from layer 1 towards layer 0
 	public void ShiftBackward()
 	{
-		Camera.main.transform.position += Vector3.back * parallaxShiftZAmount;
-		Camera.main.transform.position += Vector3.down * parallaxShiftYAmount;
 		if (currentParallaxIndex - 1 >= 0)
 		{
+			Camera.main.transform.position += Vector3.back * parallaxShiftZAmount;
+			Camera.main.transform.position += Vector3.down * parallaxShiftYAmount;
+			
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
 				parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, shrinkScale);
