@@ -37,7 +37,6 @@ public abstract class CharacterControls : MonoBehaviour
 			
 			var parallaxLayer = rh.collider.GetComponent<ParallaxObject>();
 			
-			turret.transform.parent = parallaxLayer.transform.parent;
 			turret.GetComponent<Turret>().AttachedLayer = parallaxLayer;
 			parallaxLayer.AddGameObjectToLayer(turret);
 		}		

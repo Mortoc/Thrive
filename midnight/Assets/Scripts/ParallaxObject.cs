@@ -7,15 +7,14 @@ public class ParallaxObject : MonoBehaviour
 	
 	public Vector3 initialPosition;
 	
-	//set in ParallaxManager
-	public Vector3 initialScale;
-	
 	private float cameraInitialPosition;
-	
+	private bool _showing = true;
 	public List<GameObject> _children = new List<GameObject>();
 	
 	public void AddGameObjectToLayer(GameObject go)
 	{
+		go.transform.parent = transform.parent;
+		
 		foreach( Renderer childRenderer in go.GetComponentsInChildren<Renderer>() )
 			childRenderer.enabled = _showing;			
 		
@@ -26,8 +25,6 @@ public class ParallaxObject : MonoBehaviour
 	{
 		_children.Remove(go);
 	}
-	
-	private bool _showing = true;
 	
 	public void Hide()
 	{
@@ -85,7 +82,6 @@ public class ParallaxObject : MonoBehaviour
 	void Start()
 	{
 		cameraInitialPosition = Camera.main.transform.position.x;
-		transform.position = initialPosition;
 	}
 	
 	void LateUpdate()

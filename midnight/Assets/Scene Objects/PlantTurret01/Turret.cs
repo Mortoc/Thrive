@@ -46,8 +46,7 @@ public class Turret : MonoBehaviour
 				GameObject projectile = (GameObject)Instantiate(ProjectilePrefab);
 				projectile.transform.position = ProjectileEmitter.position;
 				
-				OTSprite projectileSprite = projectile.GetComponent<OTSprite>();
-				projectileSprite.depth = (int) transform.position.z;
+				projectile.transform.parent = transform.parent;
 				
 				projectile.GetComponent<FriendlyProjectile>().Target = nearest;
 				projectile.GetComponent<FriendlyProjectile>().Damage = AttackDamage;

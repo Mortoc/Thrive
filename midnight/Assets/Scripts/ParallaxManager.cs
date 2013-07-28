@@ -30,11 +30,13 @@ public class ParallaxManager : MonoBehaviour
 			currentParallaxIndex = 0;
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
-				GameObject Scaler = new GameObject();
-				parallaxes[i].transform.parent = Scaler.transform;
-				//If this isn't set here, then the initial scale will be set to the localScale after being modified below
-				parallaxes[i].initialScale = parallaxes[i].transform.localScale;
-		
+				GameObject scaler = new GameObject("Scaler - " + parallaxes[i].name);
+				scaler.transform.position = parallaxes[i].initialPosition;
+				scaler.transform.parent = parallaxes[i].transform.parent;
+				
+				parallaxes[i].transform.parent = scaler.transform;
+				parallaxes[i].transform.localPosition = Vector3.zero;
+				
 				//shrink/grow all layers except for the initial one
 				if (i < currentParallaxIndex)
 				{
