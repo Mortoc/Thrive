@@ -79,8 +79,12 @@ public class Enemy : MonoBehaviour
 			deadMe.transform.position = rh.point;
 			deadMe.transform.up = rh.normal;
 			deadMe.transform.localScale *= DeadScale * DeadScale;
-			
-//			deadMe.GetComponent<OTSprite>().flipHorizontal = UnityEngine.Random.value > 0.5f;
+
+			//Need to test once I can see stuff again...
+			deadMe.transform.localScale = new Vector3(
+				deadMe.transform.localScale.x * (UnityEngine.Random.value > 0.5f ? 1.0f : -1.0f),
+				deadMe.transform.localScale.y,
+				deadMe.transform.localScale.z);
 			
 			AttachedLayer.AddGameObjectToLayer(deadMe);
 		}		
@@ -103,9 +107,6 @@ public class Enemy : MonoBehaviour
 			GameObject projectile = (GameObject)Instantiate(AttackProjectile);
 			projectile.transform.position = AttackEmitter.position;
 			projectile.GetComponent<EnemyProjectile>().Damage = AttackDamage;
-			
-//			OTSprite projectileSprite = projectile.GetComponent<OTSprite>();
-//			projectileSprite.depth = (int) transform.position.z;
 			
 			yield return new YieldForSeconds(AttackRate);
 		}

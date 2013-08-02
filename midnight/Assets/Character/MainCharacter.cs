@@ -88,10 +88,12 @@ public class MainCharacter : MonoBehaviour
 			verticalVelocity = -1.0f * maxVerticalVelocity;	
 		}
 		
+		//Prevent the character from going too high
 		if (transform.position.y > Camera.main.transform.position.y + Camera.main.orthographicSize)
 		{
 			transform.position += Vector3.down;
 			verticalVelocity  = 0;	
+			verticalAcceleration = 0;
 		}
 	}
 		
@@ -153,7 +155,11 @@ public class MainCharacter : MonoBehaviour
 			horizontalVelocity = -1.0f * maxHorizontalVelocity;	
 		}
 		
-		transform.localScale = new Vector3 (initialScale.x * (horizontalVelocity > 0.0f ? 1.0f : -1.0f), initialScale.y, initialScale.z);
+		//flip characters left/right
+		transform.localScale = new Vector3 (
+			initialScale.x * (horizontalVelocity > 0.0f ? 1.0f : -1.0f), 
+			initialScale.y, 
+			initialScale.z);
 	}
 	
 	public void AccelerateUp()

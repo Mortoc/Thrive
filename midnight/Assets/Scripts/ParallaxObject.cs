@@ -4,8 +4,7 @@ using System.Collections.Generic;
 public class ParallaxObject : MonoBehaviour 
 {
 	public float MoveFactor;
-	
-	public Vector3 initialPosition;
+	public Vector3 positionToStart;
 	
 	private float cameraInitialPosition;
 	private bool _showing = true;
@@ -90,7 +89,7 @@ public class ParallaxObject : MonoBehaviour
 		float cameraOffset = Camera.main.transform.position.x - cameraInitialPosition;
 		Vector3 objectOffset = cameraOffset * MoveFactor * Vector3.right;
 		
-		Vector3 diff = objectOffset - transform.position;
+		Vector3 diff = objectOffset - transform.parent.position;
 		
 		if (objectOffset != Vector3.zero)
 		{
