@@ -14,7 +14,7 @@ public class CameraControls : MonoBehaviour
 	
 	void Start()
 	{
-		//Make sure camera is on correct Z
+		//Orthello sets Z at -1000. Override this.
 		Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, initialZ);	
 	}
 	

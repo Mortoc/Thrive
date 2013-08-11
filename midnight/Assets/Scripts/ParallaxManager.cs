@@ -8,8 +8,8 @@ public class ParallaxManager : MonoBehaviour
 	private ParallaxObject currentParallax;
 	public int currentParallaxIndex;
 	
-	public Vector3 growScale;
-	public Vector3 shrinkScale;
+	public Vector3 growScale = Vector3.one;
+	public Vector3 shrinkScale = Vector3.one;
 	
 	public float parallaxShiftZAmount = 100.0f;
 	public float parallaxShiftYAmount = 300.0f;
@@ -17,11 +17,13 @@ public class ParallaxManager : MonoBehaviour
 	
 	void Start()
 	{
-		//Log if one of the scales is 0
-		if (growScale.x == 0 || growScale.x == 0 || growScale.z == 0 ||
-			shrinkScale.x == 0 || shrinkScale.y == 0 || shrinkScale.z == 0)
+		if (growScale != Vector3.zero && shrinkScale == Vector3.zero)
 		{
-			Debug.Log("ParallaxManager scaling set to 0");	
+			shrinkScale = new Vector3(1.0f/growScale.x, 1.0f/growScale.y, 1.0f/growScale.z);
+		}
+		else if (growScale == Vector3.zero && shrinkScale != Vector3.zero)
+		{
+			growScale = new Vector3(1.0f/shrinkScale.x, 1.0f/shrinkScale.y, 1.0f/shrinkScale.z);
 		}
 		
 		if (parallaxes.Length > 0)
@@ -30,15 +32,17 @@ public class ParallaxManager : MonoBehaviour
 			currentParallaxIndex = 0;
 			for (var i = 0; i < parallaxes.Length; i++)
 			{
-				GameObject Scaler = new GameObject();
-				parallaxes[i].transform.parent = Scaler.transform;
-				//If this isn't set here, then the initial scale will be set to the localScale after being modified below
-				parallaxes[i].initialScale = parallaxes[i].transform.localScale;
-		
+				//Create a parent object to do all the scaling.
+				GameObject scalingParent = new GameObject("scalingParent - " + parallaxes[i].name);
+				scalingParent.transform.position = parallaxes[i].positionToStart;
+				scalingParent.transform.parent = parallaxes[i].transform.parent;
+				parallaxes[i].transform.parent = scalingParent.transform;
+				//Unity is defaulting world position to 0. We want localPosition to be 0.
+				parallaxes[i].transform.localPosition = Vector3.zero;
+				
 				//shrink/grow all layers except for the initial one
 				if (i < currentParallaxIndex)
 				{
-					//can't figure out how to raise a vector to a power, so loop to get the same effect
 					for (var j = 0; j < i; j++)
 					{
 						parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, growScale);
@@ -46,7 +50,6 @@ public class ParallaxManager : MonoBehaviour
 				}
 				if (i > currentParallaxIndex)
 				{
-					//can't figure out how to raise a vector to a power, so loop to get the same effect
 					for (var j = 0; j < i; j++)
 					{
 						parallaxes[i].transform.parent.localScale = Vector3.Scale(parallaxes[i].transform.parent.localScale, shrinkScale);

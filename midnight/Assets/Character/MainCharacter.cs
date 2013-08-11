@@ -14,7 +14,6 @@ public class MainCharacter : MonoBehaviour
 	private float _zIndex = 0;
 	public GameObject SelectedTurret;
 	
-	public AudioClip jetpackSound;
 	
 	public float verticalForceFromTap = 1.0f;
 	public float verticalVelocity = 0.0f;
@@ -34,31 +33,20 @@ public class MainCharacter : MonoBehaviour
 	public float jumpParallaxSpeed = 30.0f;
 	public float jumpParallaxHeight = 450.0f;
 	
-	
 	public float floatyNumber = 10.0f;
+	
+	private Vector3 initialScale;
 	void Start()
 	{
 		CurrentMode = Mode.Walking;
 		_controller = GetComponent<CharacterController>();
-		
-		if (!audio)
-		{
-			gameObject.AddComponent<AudioSource>();
-			audio.clip = jetpackSound;
-			audio.Play();
-		}
+		initialScale = transform.localScale;
 	}
 	
 	void Update()
 	{
 		//Keep her Z to the closest 100 to make up for wobble
 		transform.position = new Vector3(transform.position.x, transform.position.y, _zIndex);
-		
-		
-		if (!audio.isPlaying)
-		{
-			audio.Play();
-		}
 	}
 	
 	void FixedUpdate()
@@ -98,6 +86,14 @@ public class MainCharacter : MonoBehaviour
 		if (verticalVelocity < -1.0f * maxVerticalVelocity)
 		{
 			verticalVelocity = -1.0f * maxVerticalVelocity;	
+		}
+		
+		//Prevent the character from going too high
+		if (transform.position.y > Camera.main.transform.position.y + Camera.main.orthographicSize)
+		{
+			transform.position += Vector3.down;
+			verticalVelocity  = 0;	
+			verticalAcceleration = 0;
 		}
 	}
 		
@@ -159,9 +155,11 @@ public class MainCharacter : MonoBehaviour
 			horizontalVelocity = -1.0f * maxHorizontalVelocity;	
 		}
 		
-		OTSprite sprite = GetComponent<OTSprite>();
-		sprite.flipHorizontal = horizontalVelocity > 0.0f;
-
+		//flip characters left/right
+		transform.localScale = new Vector3 (
+			initialScale.x * (horizontalVelocity > 0.0f ? 1.0f : -1.0f), 
+			initialScale.y, 
+			initialScale.z);
 	}
 	
 	public void AccelerateUp()
