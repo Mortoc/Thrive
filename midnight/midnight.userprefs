@@ -1,17 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Materials\Enemy01\Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Core\LevelState.cs">
     <Files>
-      <File FileName="Assets\Character\CharacterControls.cs" Line="32" Column="57" />
-      <File FileName="Assets\Character\MainCharacter.cs" Line="15" Column="29" />
-      <File FileName="Assets\Scripts\ParallaxManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ParallaxObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CameraControls.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scene Objects\PlantTurret01\Turret.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scene Objects\PlantTurret01\FriendlyProjectile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Editor\Sprites.cs" Line="48" Column="30" />
-      <File FileName="Assets\Materials\Enemy01\EnemySpawn.cs" Line="37" Column="1" />
-      <File FileName="Assets\Materials\Enemy01\Enemy.cs" Line="103" Column="1" />
+      <File FileName="Assets\Core\LevelState.cs" Line="21" Column="23" />
+      <File FileName="Assets\Core\PlayerCharacter\PlayerCharacterStateMachine.cs" Line="1" Column="1" />
+      <File FileName="Assets\Core\Allies\AllyControllerStateMachine.cs" Line="1" Column="1" />
+      <File FileName="Assets\Core\UserInterface\UserInputStateMachine.cs" Line="1" Column="1" />
+      <File FileName="Assets\Core\MainMenuState.cs" Line="15" Column="47" />
+      <File FileName="Assets\Core\SettingsState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Core\Game.cs" Line="21" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

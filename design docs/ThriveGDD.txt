@@ -1,0 +1,15 @@
+Thrive Game Design Document
+
+(The following are a lose set of guidelines I gleamed from a bunch of post-mortems and game design talks)
+Primary Design Goals
+	* Create a Compelling Strategy Game
+		It must be Unpredictable, Challenging and Rules-Driven so that it can be Mastered
+		The most important thing for strategy games is what's going on inside the player's head, that they understand the rules and are able to think them through clearly, that they understand all their inputs and their outcomes. 
+		Players require many interesting decisions. Not just about what strategies they want to use, but also which strategies they have to opt not to use. To achieve this sort of depth, the core gameplay needs to be defined strongly and other semi-related systems must be cut. 
+
+	* Stealth Assessment of Player Learning
+		All games teach their players. While teaching our user to be better Thrive players, we are also going to touch upon concepts in Biology and Astronomy.
+		As we challenge our players, we can measure that learning. For example: If a difficult unit can be countered by a particular genetic trait, we can infer that a player knows a certain amount about genetics if they can successfully breed a unit that has the countering-trait. There will be many places in our game that we can invisibly measure player knowledge and that can be used to show learning.
+		
+	* Tell an Inspiring Science Fiction Story
+		In the same way that many engineers and scientists at NASA were inspired by Star Trek, we have an opportunity to inspire people by showing them a future that "could be" if science and human empathy are able to overcome our modern challenges.
