@@ -10,6 +10,7 @@ namespace Thrive.Core
 	public class LevelState : IState
 	{
 		private readonly string _levelName;
+		private string _configData;
 
 		private ParallaxLayerStateMachine _parallaxLayerSM;
 		private EnemyControllerStateMachine _enemyControllerSM;
@@ -26,6 +27,13 @@ namespace Thrive.Core
 		{
 			// Load the level in Unity
 			UnityEngine.Application.LoadLevel(_levelName);
+
+			// Load the config data
+			Resource.Loader.GetConfig(_levelName, t => {
+				_configData = t;
+				UnityEngine.Debug.Log(_configData);
+			});
+
 
 			// Initialize all the in-level state machines
 			_enemyControllerSM = new EnemyControllerStateMachine(stateMachine);
