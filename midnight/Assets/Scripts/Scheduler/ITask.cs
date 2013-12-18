@@ -14,20 +14,19 @@ public interface ITask : IReceipt
 
 public class Receipt : IReceipt
 {
-	private readonly Action exitCallback;
-	
-	
+	private readonly Action _exitCallback;
+
 	public Receipt(Action onExit)
 	{
 		if( onExit == null )
-			throw new ArgumentNullException("onExit");
+			onExit = delegate() {};
 		
-		exitCallback = onExit;
+		_exitCallback = onExit;
 	}
 	
 	public void Exit()
 	{
-		exitCallback();
+		_exitCallback();
 	}
 }	
 

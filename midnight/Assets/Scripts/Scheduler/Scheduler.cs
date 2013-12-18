@@ -46,7 +46,7 @@ using System.Collections.Generic;
  *      float tauntEndTime = startTime + this.tauntLength;
  *      
  *      yield return new YieldWhile( () => enemy.IsAlive() && Time.time < tauntEndTime );
- *      
+ * 
  *      this.RefreshTauntAbility();
  *      enemy.TakeDamage( this.tauntEndDamage );
  * }
@@ -88,7 +88,7 @@ public class Scheduler : MonoBehaviour
 	void Awake()
 	{
 		if( instance )
-			DestroyImmediate(instance);
+			Destroy(instance);
 		
 		instance = this;
 	}
@@ -297,14 +297,5 @@ public class Scheduler : MonoBehaviour
             }
 		}
 	}
-
-	public void Dispose()
-	{
-		_pendingTasks.Clear();
-
-		// Prevent Unity from calling the updates again
-		Destroy(this);
-	}
-
 }
 

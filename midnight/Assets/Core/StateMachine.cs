@@ -25,7 +25,11 @@ namespace Thrive.Core
 
 		public StateMachine(IState defaultState, IStateMachine parent)
 		{
-			parent.RegisterChild (this);
+			if( parent != null )
+			{
+				parent.RegisterChild (this);
+			}
+
 			Transition(defaultState);
 		}
 
@@ -60,7 +64,8 @@ namespace Thrive.Core
 
 		protected virtual void Dispose(bool gc)
 		{
-			CurrentState.ExitState();
+			if( !gc )
+				CurrentState.ExitState();
 		}
 	}
 }
