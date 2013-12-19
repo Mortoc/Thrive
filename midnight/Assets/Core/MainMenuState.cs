@@ -9,16 +9,16 @@ namespace Thrive.Core
 	// Default class for the top-level state machine
 	// This class is responsible for setting up the
 	// first scene a user sees.
-	public class MainMenuState : IState
+	public class MainMenuState : IControllerState
 	{
 		private SettingsState _settingsState;
 		private SelectUserProfileState _selectUserProfileState;
 		private IReceipt _getBackgroundReceipt = null;
 		private GameObject _guiObject;
 		private GameObject _background;
-		private IStateMachine _stateMachine;
+		private IController _stateMachine;
 
-		public void EnterState(IStateMachine stateMachine)
+		public void EnterState(IController stateMachine)
 		{
 			_stateMachine = stateMachine;
 

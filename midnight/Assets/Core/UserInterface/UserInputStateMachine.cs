@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Thrive.Core.UI
 {
-	public class UserInputStateMachine : StateMachine
+	public class UserInputStateMachine : Controller
 	{
-		private class DefaultState : IState 
+		private class DefaultState : IControllerState
 		{
-			public void EnterState(IStateMachine owner) {}
+			public void EnterState(IController owner) {}
 			public void ExitState() {}
 		}
 		
-		public UserInputStateMachine(IStateMachine parent)
+		public UserInputStateMachine(IController parent)
 			: base(new DefaultState(), parent) 
 		{
 		}

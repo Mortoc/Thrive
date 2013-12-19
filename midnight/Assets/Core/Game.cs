@@ -4,13 +4,13 @@ namespace Thrive.Core
 {
 	public static class Game
 	{
-		private static IStateMachine _root;
+		private static IController _root;
 
 		// Creates the state machine structure required to begin the game
 		// and returns the root state machine
-		public static IStateMachine InitializeGame()
+		public static IController InitializeGame()
 		{
-			_root = new StateMachine(
+			_root = new Controller(
 				new MainMenuState(),
 				null
 			);

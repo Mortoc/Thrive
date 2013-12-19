@@ -2,9 +2,9 @@ using System;
 
 namespace Thrive.Core
 {
-	public class SettingsState : IState
+	public class SettingsState : IControllerState
 	{
-		public void EnterState(IStateMachine stateMachine)
+		public void EnterState(IController stateMachine)
 		{
 			// Display settings
 		}

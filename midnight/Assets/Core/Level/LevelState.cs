@@ -7,7 +7,7 @@ using Thrive.Core.UI;
 
 namespace Thrive.Core
 {
-	public class LevelState : IState
+	public class LevelState : IControllerState
 	{
 		private readonly string _levelName;
 		private string _configData;
@@ -23,7 +23,7 @@ namespace Thrive.Core
 			_levelName = levelName;
 		}
 
-		public void EnterState(IStateMachine stateMachine)
+		public void EnterState(IController stateMachine)
 		{
 			// Load the level in Unity
 			UnityEngine.Application.LoadLevel(_levelName);
@@ -31,9 +31,8 @@ namespace Thrive.Core
 			// Load the config data
 			Resource.Loader.GetConfig(_levelName, t => {
 				_configData = t;
-				UnityEngine.Debug.Log(_configData);
+				// TODO: load the data in to a JSON structure
 			});
-
 
 			// Initialize all the in-level state machines
 			_enemyControllerSM = new EnemyControllerStateMachine(stateMachine);

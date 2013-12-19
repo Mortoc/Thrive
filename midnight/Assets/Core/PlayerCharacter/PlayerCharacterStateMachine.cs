@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace Thrive.Core.PlayerCharacter
 {
 	// Top-level state machine for the character
-	public class PlayerCharacterStateMachine : StateMachine
+	public class PlayerCharacterStateMachine : Controller
 	{
-		private class DefaultState : IState 
+		private class DefaultState : IControllerState
 		{
-			public void EnterState(IStateMachine owner) {}
+			public void EnterState(IController owner) {}
 			public void ExitState() {}
 		}
 		
-		public PlayerCharacterStateMachine(IStateMachine parent)
+		public PlayerCharacterStateMachine(IController parent)
 			: base(new DefaultState(), parent) 
 		{
 			

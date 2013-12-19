@@ -3,27 +3,27 @@ using System.Collections.Generic;
 
 namespace Thrive.Core
 {
-	public interface IState
+	public interface IControllerState
 	{
 		// Enter and Exit state should only be called by the managing IStateMachine
-		void EnterState(IStateMachine owner);
+		void EnterState(IController owner);
 		void ExitState();
 	}
 
-	public interface IStateMachine : IDisposable
+	public interface IController : IDisposable
 	{
-		IState CurrentState { get; }
-		void Transition( IState newState );
+		IControllerState CurrentState { get; }
+		void Transition( IControllerState newState );
 
-		void RegisterChild(IStateMachine child);
+		void RegisterChild(IController child);
 	}
 
 	// Default implementation for StateMachines
-	public class StateMachine : IStateMachine
+	public class Controller : IController
 	{
-		private readonly List<IStateMachine> _children = new List<IStateMachine>();
+		private readonly List<IController> _children = new List<IController>();
 
-		public StateMachine(IState defaultState, IStateMachine parent)
+		public Controller(IControllerState defaultState, IController parent)
 		{
 			if( parent != null )
 			{
@@ -33,14 +33,14 @@ namespace Thrive.Core
 			Transition(defaultState);
 		}
 
-		public void RegisterChild(IStateMachine child)
+		public void RegisterChild(IController child)
 		{
 			_children.Add(child);
 		}
 
-		public IState CurrentState { get; private set; }
+		public IControllerState CurrentState { get; private set; }
 
-		public void Transition( IState newState )
+		public void Transition( IControllerState newState )
 		{
 			if( newState == null ) 
 				throw new ArgumentNullException("newState");
@@ -52,7 +52,7 @@ namespace Thrive.Core
 			CurrentState.EnterState(this);
 		}
 
-		~StateMachine()
+		~Controller()
 		{
 			Dispose(true);
 		}
