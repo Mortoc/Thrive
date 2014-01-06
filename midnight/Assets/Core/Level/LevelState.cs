@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 using Thrive.Core.Enemies;
 using Thrive.Core.Allies;
@@ -10,45 +12,63 @@ namespace Thrive.Core
 	public class LevelState : IControllerState
 	{
 		private readonly string _levelName;
-		private string _configData;
+		private ITask _loadingLevelTask;
 
-		private ParallaxLayerStateMachine _parallaxLayerSM;
-		private EnemyControllerStateMachine _enemyControllerSM;
-		private PlayerCharacterStateMachine _playerCharacterSM;
-		private AllyControllerStateMachine _alliedUnitSM;
-		private UserInputStateMachine _userInputSM;
+		private ParallaxLayerController _parallaxLayerController;
+		private EnemyControllerController _enemysController;
+		private PlayerCharacterController _playerCharacterController;
+		private AllyControllerController _alliedUnitsController;
+		private UserInputController _userInputController;
 
 		public LevelState(string levelName)
 		{
 			_levelName = levelName;
 		}
 
-		public void EnterState(IController stateMachine)
+		public void EnterState(IController controller)
 		{
-			// Load the level in Unity
+			_loadingLevelTask = Scheduler.Run( LoadLevel(delegate() {
+							
+				// Initialize all the in-level state machines
+				_enemysController = new EnemyControllerController(controller);
+				_playerCharacterController = new PlayerCharacterController(controller);
+				_alliedUnitsController = new AllyControllerController(controller);
+				_userInputController = new UserInputController(controller);
+				_parallaxLayerController = new ParallaxLayerController(controller);
+				
+				// Create Player 
+				_playerCharacterController.OnPlayerCreated += SetupPlayerInput;
+				_playerCharacterController.CreatePlayerCharacter();
+			}));
+		}
+
+		private IEnumerator<IYieldInstruction> LoadLevel(Action onComplete)
+		{
 			UnityEngine.Application.LoadLevel(_levelName);
 
-			// Load the config data
-			Resource.Loader.GetConfig(_levelName, t => {
-				_configData = t;
-				// TODO: load the data in to a JSON structure
-			});
+			while( Application.loadedLevelName != _levelName ) {
+				yield return Yield.UntilNextFrame;
+			}
 
-			// Initialize all the in-level state machines
-			_enemyControllerSM = new EnemyControllerStateMachine(stateMachine);
-			_playerCharacterSM = new PlayerCharacterStateMachine(stateMachine);
-			_alliedUnitSM = new AllyControllerStateMachine(stateMachine);
-			_userInputSM = new UserInputStateMachine(stateMachine);
-			_parallaxLayerSM = new ParallaxLayerStateMachine(stateMachine);
+			onComplete();
+		}
+
+		private void SetupPlayerInput()
+		{
+			_userInputController.OnPlayerMove += _playerCharacterController.Move;
+			_userInputController.OnPlayerJump += _playerCharacterController.Jump;
 		}
 
 		public void ExitState()
 		{
-			_enemyControllerSM.Dispose();
-			_playerCharacterSM.Dispose();
-			_alliedUnitSM.Dispose();
-			_userInputSM.Dispose();
-			_parallaxLayerSM.Dispose();
+			if( _loadingLevelTask != null )
+				_loadingLevelTask.Exit();
+
+			_enemysController.Dispose();
+			_playerCharacterController.Dispose();
+			_alliedUnitsController.Dispose();
+			_userInputController.Dispose();
+			_parallaxLayerController.Dispose();
 		}
 	}
 }

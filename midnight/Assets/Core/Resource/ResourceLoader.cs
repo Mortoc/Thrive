@@ -18,13 +18,7 @@ namespace Thrive.Core.Resource
 			}
 			else
 			{
-				// check our asset server (not implemented)
-				Debug.LogWarning(path);
-				throw new NotImplementedException("only local resources are implemented at this point");
-				//return new Receipt(delegate() 
-				//{
-				// cancel the download if it's in progress	
-				//});
+				throw new Exception("Asset not found:" + path);
 			}
 			return new Receipt(null);
 		}

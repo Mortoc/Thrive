@@ -7,7 +7,7 @@ using Thrive.Core.UI;
 
 namespace Thrive.Core
 {
-	public class ParallaxLayerStateMachine : Controller
+	public class ParallaxLayerController : Controller
 	{
 		private class DefaultState : IControllerState
 		{
@@ -15,7 +15,7 @@ namespace Thrive.Core
 			public void ExitState() {}
 		}
 		
-		public ParallaxLayerStateMachine(IController parent)
+		public ParallaxLayerController(IController parent)
 			: base(new DefaultState(), parent) 
 		{
 			

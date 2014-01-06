@@ -246,8 +246,9 @@ public class Scheduler : MonoBehaviour
 	{
 		List<SchedulerTask> completedTasks = new List<SchedulerTask>(); 
 
-        foreach (SchedulerTask coroutine in _pendingTasks)
+		for (int i = 0; i < _pendingTasks.Count; ++i)
 		{		
+			SchedulerTask coroutine = _pendingTasks[i];
 			try
 			{				
 				// Run the coroutine.
