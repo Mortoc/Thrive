@@ -25,6 +25,8 @@ namespace Thrive.Core.UI
 			{
 				HandleMove();
 				HandleJump();
+                HandleNextParallaxLayer();
+                HandlePreviousParallaxLayer();
 
 				yield return Yield.UntilNextFrame;
 			}
@@ -95,6 +97,22 @@ namespace Thrive.Core.UI
 				_owner.JumpInput();
 			}
 		}
+
+        private void HandleNextParallaxLayer()
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                _owner.NextParallaxLayerInput();
+            }
+        }
+
+        private void HandlePreviousParallaxLayer()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                _owner.PreviousParallaxLayerInput();
+            }
+        }
 
 		public void ExitState()
 		{

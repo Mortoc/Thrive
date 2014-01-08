@@ -9,6 +9,9 @@ namespace Thrive.Core.UI
 		public event Action<Vector3> OnPlayerMove;
 		public event Action OnPlayerJump;
 
+        public event Action OnNextParallax;
+        public event Action OnPreviousParallax;
+
 		private class DefaultState : IControllerState
 		{
 			public DefaultState()
@@ -68,6 +71,16 @@ namespace Thrive.Core.UI
 		{
 			OnPlayerJump();
 		}
+
+        public void NextParallaxLayerInput()
+        {
+            OnNextParallax();
+        }
+
+        public void PreviousParallaxLayerInput()
+        {
+            OnPreviousParallax();
+        }
 	}
 }
 

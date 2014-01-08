@@ -57,6 +57,9 @@ namespace Thrive.Core
 		{
 			_userInputController.OnPlayerMove += _playerCharacterController.Move;
 			_userInputController.OnPlayerJump += _playerCharacterController.Jump;
+
+            _userInputController.OnNextParallax += _parallaxLayerController.NextLayer;
+            _userInputController.OnPreviousParallax += _parallaxLayerController.PreviousLayer;
 		}
 
 		public void ExitState()
