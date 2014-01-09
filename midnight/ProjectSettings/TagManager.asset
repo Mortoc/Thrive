@@ -15,11 +15,11 @@ TagManager:
   User Layer 8: Enemies
   User Layer 9: Ground
   User Layer 10: Character
-  User Layer 11: 
-  User Layer 12: 
-  User Layer 13: 
-  User Layer 14: 
-  User Layer 15: 
+  User Layer 11: ParallaxLayer1
+  User Layer 12: ParallaxLayer2
+  User Layer 13: ParallaxLayer3
+  User Layer 14: ParallaxLayer4
+  User Layer 15: ParallaxLayer5
   User Layer 16: 
   User Layer 17: 
   User Layer 18: 
@@ -40,4 +40,8 @@ TagManager:
   - name: Default
     userID: 0
     uniqueID: 0
+    locked: 0
+  - name: layers
+    userID: 1
+    uniqueID: 2334965193
     locked: 0

@@ -23,46 +23,67 @@ namespace Thrive.Core
 			: base(new DefaultState(), parent) 
 		{
             Layers = new List<Component>();
-            Layers.Add(Find.ObjectWithMatchingName<Component>("_Layer1"));
-            Layers.Add(Find.ObjectWithMatchingName<Component>("_Layer2"));
-            Layers.Add(Find.ObjectWithMatchingName<Component>("_Layer3"));
 
+            int layerCount = 1;
+            while (true)
+            {
+                var tempLayer = Find.ObjectWithMatchingName<Component>("_Layer" + layerCount.ToString());
+                if (tempLayer != null)
+                {
+                    Layers.Add(tempLayer);
+                }
+                else
+                {
+                    break;
+                }
+
+				layerCount++;
+            }
+            
             CurrentLayerIndex = 0;
 		}
 
         public void NextLayer()
         {
-			Debug.Log("Layer 2/3 now in background");
-            var layer2Collider = Layers[1].GetComponent<Collider2D>();
-			var layer3Collider = Layers[2].GetComponent<Collider2D>();
+            var tempLayer = Layers[Layers.Count - 1].gameObject.layer;
+            var tempSortingOrder = Layers[Layers.Count - 1].gameObject.GetComponent<SpriteRenderer>().sortingOrder;
 
-			layer2Collider.enabled = false;
-			layer3Collider.enabled = false;
+            for (var i = Layers.Count - 1; i > 0; i--)
+            {
+                Layers[i].gameObject.layer = Layers[i - 1].gameObject.layer;
+                Layers[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = Layers[i - 1].gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+            }
 
-			/*
+            Layers[0].gameObject.layer = tempLayer;
+            Layers[0].gameObject.GetComponent<SpriteRenderer>().sortingOrder = tempSortingOrder;
+
+			
             CurrentLayerIndex++;
 			if (CurrentLayerIndex >= Layers.Count)
 			{
                 CurrentLayerIndex = 0;
 			}
-			*/
         }
 
         public void PreviousLayer()
         {
-			Debug.Log("Layer 2/3 now in foreground");
-			var layer2Collider = Layers[1].GetComponent<Collider2D>();
-			var layer3Collider = Layers[2].GetComponent<Collider2D>();
-			
-			layer2Collider.enabled = true;
-			layer3Collider.enabled = true;
-			/*
+            var tempLayer = Layers[0].gameObject.layer;
+            var tempSortingOrder = Layers[0].gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+
+            for (var i = 0; i < Layers.Count - 1; i++)
+            {
+                Layers[i].gameObject.layer = Layers[i + 1].gameObject.layer;
+                Layers[i].gameObject.GetComponent<SpriteRenderer>().sortingOrder = Layers[i + 1].gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+            }
+
+            Layers[Layers.Count - 1].gameObject.layer = tempLayer;
+            Layers[Layers.Count - 1].gameObject.GetComponent<SpriteRenderer>().sortingOrder = tempSortingOrder;
+
             CurrentLayerIndex--;
             if (CurrentLayerIndex < 0)
             {
                 CurrentLayerIndex = Layers.Count - 1;
             }
-            */
         }
 	}
 }
